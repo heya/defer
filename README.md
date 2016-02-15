@@ -90,11 +90,11 @@ It takes no arguments and returns a promise, which is resolved when `defer.submi
 BSD
 
 
-[npm-image]:      https://img.shields.io/npm/v/heya-async.svg
-[npm-url]:        https://npmjs.org/package/heya-async
-[deps-image]:     https://img.shields.io/david/heya/async.svg
-[deps-url]:       https://david-dm.org/heya/async
-[dev-deps-image]: https://img.shields.io/david/dev/heya/async.svg
-[dev-deps-url]:   https://david-dm.org/heya/async#info=devDependencies
-[travis-image]:   https://img.shields.io/travis/heya/async.svg
-[travis-url]:     https://travis-ci.org/heya/async
+[npm-image]:      https://img.shields.io/npm/v/heya-defer.svg
+[npm-url]:        https://npmjs.org/package/heya-defer
+[deps-image]:     https://img.shields.io/david/heya/defer.svg
+[deps-url]:       https://david-dm.org/heya/defer
+[dev-deps-image]: https://img.shields.io/david/dev/heya/defer.svg
+[dev-deps-url]:   https://david-dm.org/heya/defer#info=devDependencies
+[travis-image]:   https://img.shields.io/travis/heya/defer.svg
+[travis-url]:     https://travis-ci.org/heya/defer
