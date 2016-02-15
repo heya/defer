@@ -1,0 +1,30 @@
+{
+  "name": "heya-defer",
+  "description": "Front-end library to delay to a next time slice with read/write provisions.",
+  "main": "defer.js",
+  "authors": [
+    "Eugene Lazutkin <eugene.lazutkin@gmail.com> (http://www.lazutkin.com/)"
+  ],
+  "license": "BSD-3-Clause",
+  "keywords": [
+    "nextTick",
+    "time",
+    "slice"
+  ],
+  "homepage": "https://github.com/heya/defer",
+  "moduleType": [
+    "amd",
+    "globals"
+  ],
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests",
+    "*.sh",
+    "*.md",
+    "*.json",
+    "LICENSE"
+  ]
+}
