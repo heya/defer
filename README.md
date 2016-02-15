@@ -1,5 +1,11 @@
 # `defer`
 
+[![Build status][travis-image]][travis-url]
+[![Dependencies][deps-image]][deps-url]
+[![devDependencies][dev-deps-image]][dev-deps-url]
+[![NPM version][npm-image]][npm-url]
+
+
 This module provides a functionality similar to [`process.nextTick()`](https://nodejs.org/docs/latest/api/process.html#process_process_nexttick_callback_arg)
 of [node.js](https://nodejs.org/en/), but in browser. It tries to use [`setImmediate()`](https://developer.mozilla.org/en-US/docs/Web/API/Window/setImmediate),
 if available, reverting to [`postMessage()`](https://developer.mozilla.org/en-US/docs/Web/API/window/postMessage), and falling back on
@@ -82,3 +88,13 @@ It takes no arguments and returns a promise, which is resolved when `defer.submi
 # License
 
 BSD
+
+
+[npm-image]:      https://img.shields.io/npm/v/heya-async.svg
+[npm-url]:        https://npmjs.org/package/heya-async
+[deps-image]:     https://img.shields.io/david/heya/async.svg
+[deps-url]:       https://david-dm.org/heya/async
+[dev-deps-image]: https://img.shields.io/david/dev/heya/async.svg
+[dev-deps-url]:   https://david-dm.org/heya/async#info=devDependencies
+[travis-image]:   https://img.shields.io/travis/heya/async.svg
+[travis-url]:     https://travis-ci.org/heya/async
