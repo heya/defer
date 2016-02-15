@@ -7,7 +7,8 @@
     "test": "tests"
   },
   "scripts": {
-    "test": "phantomjs tests/phantom.js"
+    "test": "phantomjs tests/phantom.js",
+    "dist": "./dist.sh"
   },
   "repository": {
     "type": "git",
@@ -25,7 +26,9 @@
   },
   "homepage": "https://github.com/heya/defer#readme",
   "devDependencies": {
-    "heya-unit": "^0.2.0"
+    "deamdify": "^0.2.0",
+    "heya-unit": "^0.2.0",
+    "uglifyify": "^3.0.1"
   },
   "dependencies": {
     "heya-async": "^0.2.0"
