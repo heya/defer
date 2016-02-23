@@ -83,7 +83,8 @@ It takes no arguments and returns a promise, which is resolved when `defer.submi
 
 # Versions
 
-1.0.0 &mdash; *the initial public release*
+- 1.0.1 &mdash; *Added globals-based versions of modules.*
+- 1.0.0 &mdash; *The initial public release.*
 
 # License
 
