@@ -1,20 +1,25 @@
-define(['heya-async/FastDeferred', './defer'], function (Deferred, defer) {
+define(['./defer'], function (defer) {
 	'use strict';
 
 	// defer queues with promises
-	// depends on defer.js and Deferred.js
 
 	function getPromise (queue) {
-		var deferred;
-		return function () {
-			if (!deferred) {
-				deferred = new Deferred();
-				defer[queue](function () {
-					deferred.resolve(true);
-					deferred = null;
+		var promise;
+		return function (Deferred) {
+			if (!promise) {
+				var P = Deferred && Deferred.Wrapper || Promise;
+				promise = new P(function (resolve) {
+					defer[queue](function () {
+						promise = null;
+						resolve(true);
+					});
 				});
 			}
-			return deferred.promise;
+			return promise;
+//			var P = Deferred && Deferred.Wrapper || Promise;
+//			return new P(function (resolve) {
+//				defer[queue](resolve);
+//			});
 		};
 	}
 
@@ -22,4 +27,6 @@ define(['heya-async/FastDeferred', './defer'], function (Deferred, defer) {
 	defer.whenNext  = getPromise('nextTick');
 	defer.whenRead  = getPromise('submitRead');
 	defer.whenWrite = getPromise('submitWrite');
-}());
+
+	return defer;
+});

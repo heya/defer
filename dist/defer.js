@@ -33,30 +33,22 @@
 
 	function asap (f) {
 		queue.push(f);
-		if (handle === null) {
-			start();
-		}
+		handle === null && start();
 	}
 
 	function nextTick (f) {
 		(handle === PROCESSING ? backlog : queue).push(f);
-		if (handle === null) {
-			start();
-		}
+		handle === null && start();
 	}
 
 	function submitRead (f) {
 		reads.push(f);
-		if (handle === null) {
-			start();
-		}
+		handle === null && start();
 	}
 
 	function submitWrite (f) {
 		writes.push(f);
-		if (handle === null) {
-			start();
-		}
+		handle === null && start();
 	}
 
 	if (typeof setImmediate == 'function') {
