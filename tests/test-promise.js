@@ -1,19 +1,21 @@
-define(['module', 'heya-unit', '../defer'], function(module, unit, defer){
+define(['module', 'heya-unit', '../defer-promise'], function(module, unit, defer){
 	'use strict';
 
-	// tests (this is a copy of tests.js custom-tailored to test the main module)
+	if (typeof Promise == 'undefined') return;
 
 	unit.add(module, [
 		function test_exist (t) {
 			eval(t.TEST('typeof defer == "object"'));
-			eval(t.TEST('typeof defer.asap == "function"'));
-			eval(t.TEST('typeof defer.nextTick == "function"'));
+			eval(t.TEST('typeof defer.whenAsap == "function"'));
+			eval(t.TEST('typeof defer.whenNext == "function"'));
+			eval(t.TEST('typeof defer.whenRead == "function"'));
+			eval(t.TEST('typeof defer.whenWrite == "function"'));
 		},
 
 		{
 			test: function test_asap (t) {
-				var x = t.startAsync('async');
-				defer.asap(function () {
+				var x = t.startAsync();
+				defer.whenAsap().then(function () {
 					t.info('done');
 					x.done();
 				});
@@ -23,11 +25,11 @@ define(['module', 'heya-unit', '../defer'], function(module, unit, defer){
 
 		{
 			test: function test_asap_preserve_order (t) {
-				var x = t.startAsync('async');
-				defer.asap(function () {
+				var x = t.startAsync();
+				defer.whenAsap().then(function () {
 					t.info('#1');
 				});
-				defer.asap(function () {
+				defer.whenAsap().then(function () {
 					t.info('#2');
 					x.done();
 				});
@@ -38,15 +40,15 @@ define(['module', 'heya-unit', '../defer'], function(module, unit, defer){
 		{
 
 			test: function test_asap_cascade (t) {
-				var x = t.startAsync('async');
-				defer.asap(function () {
-					defer.asap(function () {
+				var x = t.startAsync();
+				defer.whenAsap().then(function () {
+					defer.whenAsap().then(function () {
 						t.info('#3');
 						x.done();
 					});
 					t.info('#1');
 				});
-				defer.asap(function () {
+				defer.whenAsap().then(function () {
 					t.info('#2');
 				});
 			},
@@ -55,8 +57,8 @@ define(['module', 'heya-unit', '../defer'], function(module, unit, defer){
 
 		{
 			test: function test_nextTick (t) {
-				var x = t.startAsync('async');
-				defer.nextTick(function () {
+				var x = t.startAsync();
+				defer.whenNext().then(function () {
 					t.info('done');
 					x.done();
 				});
@@ -66,11 +68,11 @@ define(['module', 'heya-unit', '../defer'], function(module, unit, defer){
 
 		{
 			test: function test_nextTick_preserve_order (t) {
-				var x = t.startAsync('async');
-				defer.nextTick(function () {
+				var x = t.startAsync();
+				defer.whenNext().then(function () {
 					t.info('#1');
 				});
-				defer.nextTick(function () {
+				defer.whenNext().then(function () {
 					t.info('#2');
 					x.done();
 				});
@@ -80,15 +82,15 @@ define(['module', 'heya-unit', '../defer'], function(module, unit, defer){
 
 		{
 			test: function test_nextTick_cascade (t) {
-				var x = t.startAsync('async');
-				defer.nextTick(function () {
-					defer.nextTick(function () {
+				var x = t.startAsync();
+				defer.whenNext().then(function () {
+					defer.whenNext().then(function () {
 						t.info('#3');
 						x.done();
 					});
 					t.info('#1');
 				});
-				defer.nextTick(function () {
+				defer.whenNext().then(function () {
 					t.info('#2');
 				});
 			},
@@ -97,29 +99,30 @@ define(['module', 'heya-unit', '../defer'], function(module, unit, defer){
 
 		{
 			test: function test_asap_takes_precedence_1 (t) {
-				var x = t.startAsync('async');
-				defer.nextTick(function () {
-					defer.nextTick(function () {
+				var x = t.startAsync(), y = t.startAsync('y');
+				defer.whenNext().then(function () {
+					defer.whenNext().then(function () {
 						t.info('#3');
 						x.done();
 					});
-					defer.asap(function () {
+					defer.whenAsap().then(function () {
 						t.info('#2');
+						y.done();
 					});
 					t.info('#1');
 				});
 			},
-			logs: ['#1', '#2', '#3']
+			logs: ['#1', '#3', '#2']
 		},
 
 		{
 			test: function test_asap_takes_precedence_2 (t) {
-				var x = t.startAsync('async');
-				defer.nextTick(function () {
-					defer.asap(function () {
+				var x = t.startAsync();
+				defer.whenNext().then(function () {
+					defer.whenAsap().then(function () {
 						t.info('#2');
 					});
-					defer.nextTick(function () {
+					defer.whenNext().then(function () {
 						t.info('#3');
 						x.done();
 					});
@@ -131,12 +134,12 @@ define(['module', 'heya-unit', '../defer'], function(module, unit, defer){
 
 		{
 			test: function test_asap_nextTick_preserve_order (t) {
-				var x = t.startAsync('async');
-				defer.nextTick(function () {
-					defer.asap(function () {
+				var x = t.startAsync();
+				defer.whenNext().then(function () {
+					defer.whenAsap().then(function () {
 						t.info('#2');
 					});
-					defer.asap(function () {
+					defer.whenAsap().then(function () {
 						t.info('#3');
 						x.done();
 					});
@@ -148,19 +151,19 @@ define(['module', 'heya-unit', '../defer'], function(module, unit, defer){
 
 		{
 			test: function test_read_takes_precedence_1 (t) {
-				var x = t.startAsync('async');
-				defer.nextTick(function () {
-					defer.submitRead(function () {
-						defer.submitWrite(function () {
+				var x = t.startAsync();
+				defer.whenNext().then(function () {
+					defer.whenRead().then(function () {
+						defer.whenWrite().then(function () {
 							t.info('#4');
 						});
 						t.info('#2');
-						defer.submitWrite(function () {
+						defer.whenWrite().then(function () {
 							t.info('#5');
 						});
 					});
-					defer.submitRead(function () {
-						defer.submitWrite(function () {
+					defer.whenRead().then(function () {
+						defer.whenWrite().then(function () {
 							t.info('#6');
 							x.done();
 						});
@@ -174,28 +177,29 @@ define(['module', 'heya-unit', '../defer'], function(module, unit, defer){
 
 		{
 			test: function test_read_takes_precedence_2 (t) {
-				var x = t.startAsync('async');
-				defer.nextTick(function () {
-					defer.submitWrite(function () {
+				var x = t.startAsync(), y = t.startAsync('y');
+				defer.whenNext().then(function () {
+					defer.whenWrite().then(function () {
 						t.info('#4');
 					});
-					defer.submitRead(function () {
+					defer.whenRead().then(function () {
 						t.info('#2');
 					});
-					defer.submitWrite(function () {
+					defer.whenWrite().then(function () {
 						t.info('#5');
 					});
-					defer.submitRead(function () {
+					defer.whenRead().then(function () {
 						t.info('#3');
 						x.done();
 					});
-					defer.submitWrite(function () {
+					defer.whenWrite().then(function () {
 						t.info('#6');
+						y.done();
 					});
 					t.info('#1');
 				});
 			},
-			logs: ['#1', '#4', '#5', '#6', '#2', '#3']
+			logs: ['#1', '#2', '#3', '#4', '#5', '#6']
 		}
 	]);
 

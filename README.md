@@ -31,23 +31,24 @@ This module can be used with [AMD]() and globals. In the latter case it can be a
 * `submitRead()` &mdash; submits a "read" task. All "read" tasks run as a single batch.
 * `submitWrite()` &mdash; submits a "write" task. All "write" tasks run as a single batch.
 
+First scheduled task of a certain type will run before the next scheduled task of the same type.
+
 ### `nextTick()`
 
-This procedure takes a single argument: a micro task as a procedure without arguments. It is queued, and scheduled to be run at a next time slice.
+This procedure takes a single argument: a micro task as a procedure without arguments. It is queued, and scheduled to be run at the next time slice.
 
 ### `asap()`
 
-This procedure takes a single argument: a micro task as a procedure without arguments. It is added to a queue to be run, when tasks are executed &mdash;
-it can happen this time slice, or the next one.
+This procedure takes a single argument: a micro task as a procedure without arguments. "Asap" tasks are meant to be run as soon as possible, but if the current time slice cannot be scheduled at the moment, an "asap" tasks is scheduled as a normal "next tick" task. There is no inherent precendence order between "asap" and "next tick" tasks scheduled for the same time slice &mdash; they can be run in any relative order.
 
 ### `submitRead()`
 
-This procedure takes a single argument: a micro task as a procedure without arguments. It is based on `asap()`, and queues "read" tasks to be run as a single batch.
+This procedure takes a single argument: a micro task as a procedure without arguments. It queues "read" tasks to be run as a single batch this time slice or the next one. "Read" tasks are run before general and "write" tasks.
 
 
 ### `submitWrite()`
 
-This procedure takes a single argument: a micro task as a procedure without arguments. It is based on `asap()`, and queues "write" tasks to be run as a single batch.
+This procedure takes a single argument: a micro task as a procedure without arguments. It queues "write" tasks to be run as a single batch this time slice, or the next one. "Write" tasks are run after "read" tasks and general tasks.
 
 # `defer-promise`
 
@@ -63,7 +64,10 @@ with other promises conditionally.
 
 ## The main API
 
-The main API is represented by three functions that take no arguments, and return corresponding promises.
+The main API is represented by three functions that take up to one argument, and return corresponding promises.
+
+The only argument is a `Deferred` compatible constructor similar to provided by `heya-async` module (`Deferred` or `FastDeferred`). If not specified,
+the standard `Promise` is used.
 
 ### `whenAsap()`
 
@@ -83,6 +87,7 @@ It takes no arguments and returns a promise, which is resolved when `defer.submi
 
 # Versions
 
+- 1.1.0 &mdash; *Reworked `defer-promise` module.*
 - 1.0.1 &mdash; *Added globals-based versions of modules.*
 - 1.0.0 &mdash; *The initial public release.*
 

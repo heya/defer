@@ -1,9 +1,9 @@
 <!DOCTYPE html>
 <html>
 	<head>
-		<title>heya-dom test runner</title>
+		<title>heya-defer test runner</title>
 		<script src="http://cdnjs.cloudflare.com/ajax/libs/es5-shim/1.2.4/es5-shim.min.js"></script>
-		<script src="http://requirejs.org/docs/release/2.1.22/minified/require.js"></script>
+		<script src="http://cdnjs.cloudflare.com/ajax/libs/require.js/2.2.0/require.js"></script>
 		<script>
 			require.config({
 				baseUrl: ".",
@@ -13,10 +13,12 @@
 					{name: "heya-ice",
 					location: "../node_modules/heya-ice"},
 					{name: "heya-unify",
-					location: "../node_modules/heya-unify"}
+					location: "../node_modules/heya-unify"},
+					{name: "heya-async",
+					location: "../node_modules/heya-async"}
 				],
 				paths: {
-					"domReady": "https://cdnjs.cloudflare.com/ajax/libs/require-domReady/2.0.1/domReady"
+					"domReady": "http://cdnjs.cloudflare.com/ajax/libs/require-domReady/2.0.1/domReady.min"
 				}
 			});
 			require(["require", "./tests", "domReady!"], function(require){

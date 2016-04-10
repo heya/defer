@@ -1,6 +1,6 @@
 {
   "name": "heya-defer",
-  "version": "1.0.1",
+  "version": "1.1.0",
   "description": "Front-end library to delay to a next time slice with read/write provisions.",
   "main": "defer.js",
   "directories": {
@@ -12,7 +12,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/heya/defer.git"
+    "url": "https://github.com/heya/defer.git"
   },
   "keywords": [
     "nextTick",
@@ -26,16 +26,14 @@
   },
   "homepage": "https://github.com/heya/defer#readme",
   "devDependencies": {
+    "heya-async": "^1.0.0",
     "heya-globalize": "^1.0.3",
-    "heya-unit": "^0.2.0"
+    "heya-unit": "^0.3.0"
   },
-  "dependencies": {
-    "heya-async": "^0.2.0"
-  },
+  "dependencies": {},
   "browserGlobals": {
     "!root": "heya.defer",
     "./defer": "heya.defer",
-    "./defer-promise": "heya.defer.promise",
-    "heya-async": "heya.async"
+    "./defer-promise": "!heya.defer"
   }
 }
