@@ -1,5 +1,7 @@
 # `defer`
 
+[![Greenkeeper badge](https://badges.greenkeeper.io/heya/defer.svg)](https://greenkeeper.io/)
+
 [![Build status][travis-image]][travis-url]
 [![Dependencies][deps-image]][deps-url]
 [![devDependencies][dev-deps-image]][dev-deps-url]
